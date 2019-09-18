@@ -1,0 +1,228 @@
+buildscript {
+    repositories {
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
+    }
+
+    configurations {
+        compile.exclude module: "spring-boot-starter-tomcat"
+    }
+
+    ext {
+        springBootVersion = "1.5.10.RELEASE"
+        springCloudVersion = "Dalston.SR4"
+        cxfVersion = "3.1.8"
+    }
+
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
+    }
+}
+
+project(':server') {
+    group 'shcepp'
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'idea'
+
+    sourceCompatibility = 1.8
+
+    jar {
+        baseName = 'leetCode'
+        excludes = ["*.yml","*.properties*","*.xml"]
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion"
+        }
+    }
+
+
+    repositories {
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
+    }
+    configurations {
+        //remove default logger
+        all*.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+        all*.exclude group: 'ch.qos.logback', module: 'logback-core'
+    }
+    [compileJava, compileTestJava, javadoc]*.options*.encoding = "UTF-8"
+    dependencies {
+        testCompile group: 'junit', name: 'junit', version: '4.12'
+        compile("org.springframework.boot:spring-boot-starter-undertow:$springBootVersion")
+        compile("org.springframework.boot:spring-boot-starter-thymeleaf:$springBootVersion")
+        compile("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
+        compile("org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion")
+//        compile("org.springframework.boot:spriJunitTestMainng-boot-starter-security:$springBootVersion")
+
+//    compile("org.springframework.boot:spring-boot-devtools:$springBootVersion")
+        compile("org.springframework.boot:spring-boot-starter-aop:$springBootVersion")
+        compile("org.springframework.boot:spring-boot-starter-actuator:$springBootVersion")
+        compile("org.springframework.boot:spring-boot-starter-cache:$springBootVersion")
+        compile("org.springframework.boot:spring-boot-configuration-processor")
+
+
+        //junit测试类
+        compile("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
+
+        compile ("junit:junit:4.12")
+
+        //cloud
+        compile("org.springframework.cloud:spring-cloud-starter-eureka")
+        compile("org.springframework.cloud:spring-cloud-starter-hystrix")
+        //logstash
+//        compile("net.logstash.logback:logstash-logback-encoder:4.11")
+
+        //验证码
+        compile 'com.bladejava:blade-patchca:1.1.0'
+        //日志相关的包
+        compile("org.springframework.boot:spring-boot-starter-log4j2:$springBootVersion")
+        //日志组件
+        compile 'kr.pe.kwonnam.slf4j-lambda:slf4j-lambda-core:0.1'
+        //邮件
+        compile 'javax.mail:mail:1.4.7'
+        compile 'javax.activation:activation:1.1.1'
+        //旧的项目日志依赖
+        compile("net.logstash.logback:logstash-logback-encoder:4.11")
+
+        //bootAdmin
+        compile("org.jolokia:jolokia-core:1.3.7")
+
+//    compile("org.apache.tomcat.embed:tomcat-embed-jasper:8.5.14")
+        compile("org.apache.commons:commons-lang3:3.6")
+        compile("commons-codec:commons-codec:1.9")
+        compile("commons-collections:commons-collections:3.2.2")
+//    compile("net.sf.ehcache:ehcache:2.8.3")
+        compile("com.oracle:ojdbc6:11.2.0.3")
+        compile("com.alibaba:druid-spring-boot-starter:1.1.2")
+//    compile("com.alibaba:druid:1.1.0")
+        compile("com.alibaba:fastjson:1.2.47")
+        //Spring Security
+//    compile(
+//            "org.springframework.security:spring-security-web:3.0.8.RELEASE"
+//    )
+        //httpClient
+//    compile "org.apache.httpcomponents:httpclient:4.5.2"
+
+
+        //Spring Security
+        compile(
+                "org.springframework.security:spring-security-web:3.0.8.RELEASE"
+        )
+        //解决thymeleaf严格模式 需配合spring.thymeleaf.mode = LEGACYHTML5 使用，默认为spring.thymeleaf.mode = HTML5
+        compile('net.sourceforge.nekohtml:nekohtml:1.9.22')
+
+        //swagger2
+        compile(
+                "io.springfox:springfox-swagger2:2.6.1",
+                "io.springfox:springfox-swagger-ui:2.6.1"
+        )
+
+        //beanutils
+        compile 'org.kie.modules:org-apache-commons-beanutils-main:6.5.0.Final'
+
+        //JDOM
+        compile(
+                "org.jdom:jdom:2.0.2"
+        )
+        //httpClient
+        compile "commons-httpclient:commons-httpclient:3.1"
+
+        //xml的解析器
+        compile(
+                "com.thoughtworks.xstream:xstream:1.4.8"
+        )
+        //oracle驱动
+        compile(
+                "com.oracle:ojdbc6:11.2.0.3"
+        )
+        //redis
+        compile(
+                "org.springframework.data:spring-data-redis:1.7.4.RELEASE",
+                "redis.clients:jedis:2.9.0"
+        )
+//gson
+        compile(
+                "com.google.code.gson:gson:2.3.1"
+        )
+//        //castor
+        compile ('org.codehaus.castor:castor-xml:1.4.1')
+
+        compile 'commons-io:commons-io:2.4'
+
+//        //axis2
+//        compile(
+//                "org.apache.axis2:org.apache.axis2.osgi:1.7.4"
+//        )
+
+        //axis
+        compile 'com.liferay:org.apache.axis:1.4.LIFERAY-PATCHED-2'
+        compile 'javax.xml.rpc:javax.xml.rpc-api:1.1.1'
+        //apollo的配置
+        compile("com.ctrip.framework.apollo:apollo-client:1.3.0")
+
+
+        //加载本地依赖
+        compile fileTree(dir: 'lib', include: ['*.jar'])
+
+
+        //GDWS加载
+//        compile 'upfgdws:ep-gdws-parser:1.0'
+
+        compile 'org.apache.axis:com.springsource.org.apache.axis:1.4.0'
+        compile 'wsdl4j:wsdl4j:1.6.2'
+        compile 'net.sourceforge.json:com.springsource.net.sf.json:2.2.2'
+
+        //essearch加载
+
+        compile(
+                "org.elasticsearch.client:elasticsearch-rest-high-level-client:6.4.2",
+                "org.elasticsearch:elasticsearch:6.4.2"
+        )
+        compile group: 'org.slf4j', name: 'slf4j-api', version:'1.7.21'
+
+        compile("com.shcepp:ARSENAL-KAFKA:1.3.2-SNAPSHOT"){
+            exclude group: 'org.springframework', module: 'org.springframework.beans'
+            exclude group: 'org.springframework', module: 'org.springframework.context'
+            exclude group: 'com.mchange', module: 'c3p0'
+            exclude group: 'log4j', module: 'log4j'
+            exclude group: 'org.slf4j', module: 'slf4j-api'
+            exclude group: 'org.slf4j', module: 'slf4j-lg4j12'
+        }
+    }
+
+    repositories {
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
+    }
+    dependencies {compile 'quartz:quartz:1.6.0'}
+
+
+
+    //增加kafka依赖
+    repositories {
+        maven { url 'http://192.168.128.70:8888/nexus/content/repositories/snapshots/' }
+        maven { url 'http://192.168.128.70:8888/nexus/content/repositories/releases/' }
+        maven { url 'http://192.168.128.70:8888/nexus/content/repositories/thirdparty/' }
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
+        maven { url "https://repo.spring.io/snapshot" }
+        maven { url "https://repo.spring.io/milestone" }
+        maven { url "http://repo.maven.apache.org/maven2" }
+    }
+    dependencies {
+        //缓存刷新
+        compile("com.shcepp:ARSENAL-KAFKA:1.3.2-SNAPSHOT"){
+            exclude group: 'org.springframework', module: 'org.springframework.beans'
+            exclude group: 'org.springframework', module: 'org.springframework.context'
+            exclude group: 'com.mchange', module: 'c3p0'
+            exclude group: 'log4j', module: 'log4j'
+            exclude group: 'org.slf4j', module: 'slf4j-api'
+            exclude group: 'org.slf4j', module: 'slf4j-lg4j12'
+        }
+//        compile("com.google.guava:guava-rate-limiter:15.0-atlassian-1")
+        compile("com.google:guava:120.0")
+
+    }
+
+
+}
+

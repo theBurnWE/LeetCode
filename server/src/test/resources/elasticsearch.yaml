@@ -1,0 +1,4 @@
+nodes:
+  - hostName: 192.168.128.81
+    port: 9200
+    scheme: http

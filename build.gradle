@@ -1,0 +1,24 @@
+apply plugin: 'java'
+// Jar包名
+def jarName = "leetCode.jar"
+task buildSvcJar(dependsOn: ['server:build']) {
+    def cache = file("server/build/libs/upfdemo.jar")
+    def tmp = file("build/" + jarName)
+    tmp.mkdirs()
+    tmp.delete();
+    cache.renameTo(tmp)
+}
+task buildJar(dependsOn: ['buildSvcJar']) {
+    def fileJar = file("build/" + jarName)
+    doLast {
+        ["build/dev", "build/prod"].each { dest ->
+            copy {
+                from "build/" + fileJar.getName()
+                into dest
+                from("server/dist")
+                into dest
+            }
+        }
+        fileJar.delete()
+    }
+}

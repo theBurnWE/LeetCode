@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <properties>
+        <property name="LOG_HOME">logs</property>
+    </properties>
+    <Appenders>
+
+        <!-- 输出到控制台 -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %c{1.}(line:%L) - %msg%n" />
+        </Console>
+
+        <!--主业务日志  -->
+        <RollingRandomAccessFile name="main" fileName="${LOG_HOME}/main.log" filePattern="${LOG_HOME}/main-%i.log">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %c{1.}(line:%L) - %msg%n"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="500 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingRandomAccessFile>
+
+        <!--其它日志 如配置  -->
+        <RollingRandomAccessFile name="sub" fileName="${LOG_HOME}/sub.log" filePattern="${LOG_HOME}/sub-%i.log">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %c{1.}(line:%L) - %msg%n"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="500 MB"/>
+            </Policies>
+            <!-- DefaultRolloverStrategy属性如不设置，则默认为最多同一文件夹下7个文件，这里设置了10 -->
+            <DefaultRolloverStrategy max="10"/>
+        </RollingRandomAccessFile>
+
+    </Appenders>
+
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="main" />
+            <AppenderRef ref="sub" />
+            <AppenderRef ref="Console" />
+        </Root>
+
+        <!-- 主业务日志 写入到main   若是additivity设为false，则子Logger只会在自己的appender里输出，而不会在父Logger的appender里输出-->
+        <Logger name="com.shcepp" level="info" additivity="false">
+            <AppenderRef ref="main" />
+            <AppenderRef ref="Console" />
+        </Logger>
+
+        <!-- 其它日志如配置 写入到sub-->
+        <!-- <Logger name="com.config" level="info" additivity="false">
+            <AppenderRef ref="sub" />
+            <AppenderRef ref="Console" />
+        </Logger> -->
+
+    </Loggers>
+</Configuration>

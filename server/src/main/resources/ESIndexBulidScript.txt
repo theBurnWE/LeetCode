@@ -1,0 +1,46 @@
+put /shdipp-rtxt
+{
+	"settings": {
+		"index.number_of_shards": 5,
+		"index.number_of_replicas": 1,
+		"index.blocks.write": false
+	},
+	"mappings": {
+		"_doc": {
+			"properties": {
+				"createTime": {
+					"type": "date",
+					"format": "yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis"
+				},
+				"isDelete": {
+					"type": "boolean"
+				},
+				"updateTime": {
+					"type": "date",
+					"format": "yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis"
+				},
+				"userId": {
+					"type": "text"
+				},
+				"attributes": {
+					"type": "text",
+					"analyzer": "ik_max_word",
+					"search_analyzer": "ik_smart"
+				},
+				"region": {
+					"type": "text",
+					"analyzer": "ik_max_word",
+					"search_analyzer": "ik_smart"
+				},
+				"message": {
+					"type": "text",
+					"analyzer": "ik_max_word",
+					"search_analyzer": "ik_smart"
+				},
+				"orMessage": {
+					"type": "text"
+				}
+			}
+		}
+	}
+}

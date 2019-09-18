@@ -1,0 +1,11 @@
+<html>
+<body>
+尊敬的客户：<br/><p style="text-indent:2em;">您好!</p>
+<div style="text-indent:2em;">
+	<p>您正在重置密码，您的验证码是<B>{captcha}</B>，在5分钟内有效。如非本人操作请忽略本次邮件。 </p>
+
+	<p align="center">上海跨境电子商务公共服务平台</p>
+
+</div>
+</body>
+</html>

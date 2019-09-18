@@ -1,0 +1,168 @@
+
+logging:
+  level:
+   org.springframework.cloud.gateway: TRACE
+#   com.shcepp: debug
+  config: classpath:log4j2.xml
+dbClient:
+#   password: SHDIPP #开发
+   password: easipass #测试
+spring:
+  profiles:
+    active: test
+    include: config
+  application:
+    name: shdipp-svr
+  jpa:
+    show-sql: false
+    properties.hibernate:
+      format_sql: true
+#      dialect: org.hibernate.dialect.OracleDialect
+      dialect: com.shcepp.shdippsvr.sys.config.MyOracleDialect
+      temp.use_jdbc_metadata_defaults: false
+    #校验数据库的表结构,不匹配就报错
+#    hibernate:
+#      ddl-auto: validate
+    properties:
+      hibernate:
+        jdbc:
+         batch_size: 100
+#        order_inserts: true
+
+  thymeleaf:
+    cache: false  # 这个开发配置为false，避免改了模板还要重启服务器
+    prefix: classpath:/view/   # 这个是配置模板路径的，默认就是templates，可不用配置
+    check-template-location: false  # 这个可以不配置，检查模板位置
+    suffix: .html
+    encoding: UTF-8
+    content-type: text/html
+    mode: LEGACYHTML5
+#    mode: HTML5   # 模板的模式
+#     现在radies的配置是通关项目的配置，等小韩配置完毕之后再修改
+  redis.cluster.nodes: 192.168.128.60:16379,192.168.128.60:17379,192.168.128.60:18379
+
+  datasource:
+    druid:
+      driverClassName: oracle.jdbc.OracleDriver
+      initialSize: 5
+      minIdle: 5
+      maxActive: 30
+      maxWait: 60000   # 配置获取连接等待超时的时间
+      timeBetweenEvictionRunsMillis: 60000  # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫F秒
+      minEvictableIdleTimeMillis: 300000  # 配置一个连接在池中最小生存的时间，单位是毫秒
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true  # 打开PSCache，并且指定每个连接上PSCache的大小
+      maxPoolPreparedStatementPerConnectionSize: 30
+      filters: stat,wall,config # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      #connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000  # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+      db:
+#        url: jdbc:oracle:thin:@192.168.128.110:1521:dbdev12c # 开发
+        url: jdbc:oracle:thin:@192.168.128.94:1521:dbtest12c # 测试
+        username: SHDIPP
+        useGlobalDataSourceStat: true  # 合并多个DruidDataSource的监控数据
+  http:
+    multipart:
+      enabled: true
+      max-file-size: 20MB #(文件上传时限制的文件大小)
+      max-request-size: 20MB #(文件上传时限制的文件大小)
+  cache:
+      ehcache:
+        config: classpath:ehcache.xml
+
+#info:
+#  version: 1.0
+#  swaggerUrl: http://${spring.cloud.client.ipAddress}:${spring.application.instance_id:${server.port}}/swagger-ui.html
+#  druidUrl: http://${spring.cloud.client.ipAddress}:${spring.application.instance_id:${server.port}}/druid/index.html
+server:
+  port: 9098
+  contextPath: /${spring.application.name}/
+
+#  tomcat:
+#    uri-encoding: UTF-8
+#    access_log_enabled: true    # ，并打开Tomcat的Access日志可以设置日志格式的方法
+#    basedir: tomcat
+
+#management:
+#  context-path: /${spring.application.name}
+#  port: 8889
+#  security:
+#    roles: SUPERUSER
+#    enabled: false  #actuator是否需要安全保证
+#security:
+
+#  user:
+#    name: admin
+#    password: password
+#  basic:
+#    path: /admin    #针对/admin路径进行认证
+#    enabled: false
+#eureka:
+#  client.serviceUrl.defaultZone: http://easipass:easipass@192.168.129.181:7771/eureka/,http://easipass:easipass@192.168.129.181:7772/eureka/,http://easipass:easipass@192.168.129.181:7773/eureka/
+#  instance:
+#    prefer-ip-address: true
+#    instance-id: ${spring.application.name}:${spring.cloud.client.ipAddress}:${spring.application.instance_id:${server.port}}
+##    homePageUrlPath: /${spring.application.name}
+#    metadata-map.management:
+#      port: ${management.port}
+##      context-path: /${spring.application.name}
+#hystrix.command.default.execution:
+#  timeout.enabled: true
+#  isolation.thread.timeoutInMilliseconds: 50000000  #超时时间（默认1000，单位：ms）优先级低于方法注解中的指定配置  开发设置长
+
+#kafka和打点的配置
+#kafka的配置
+sys:
+  httpConfig:
+    #最大连接数
+    maxTotal: 100
+    #并发数
+    defaultMaxPerRoute: 20
+    #创建连接的最长时间
+    connectTimeout: 1000
+    #从连接池中获取到连接的最长时间
+    connectionRequestTimeout: 500
+    #数据传输的最长时间
+    socketTimeout: 10000
+    keepAliveTimeout: 200
+    #提交请求前测试连接是否可用
+    staleConnectionCheckEnabled: true
+  kafkaConfig:
+    bootstrapServers: 192.168.128.130:9092
+    groupId: upfgateway-01
+    enableAutoCommit: false
+    autoCommitIntervalMs: 30000
+    heartbeatIntervalMs: 1000
+    sessionTimeoutMs: 60000
+    #autoOffsetReset: latest
+    #metadataMaxAgeMs: 60000
+    keyDeserializer: org.apache.kafka.common.serialization.StringDeserializer
+    valueDeserializer: org.apache.kafka.common.serialization.StringDeserializer
+    #kafka producer
+    keySerializer: org.apache.kafka.common.serialization.StringSerializer
+    valueSerializer: org.apache.kafka.common.serialization.StringSerializer
+    acks: all
+    lingerMs: 1
+    bufferMemory: 33554432
+    partitionerClass: com.shcepp.kafkaclient.CrossOrderPartitioner
+    retries: 0
+    batchSize: 1
+    compressionType: gzip
+  KAFKA_SYN_SWITCH: OFF
+statsd:
+  #打点开关
+  statsdSwitch: 'OFF'
+  statsdIP: 10.68.5.232
+  statsdPort: 8125
+  defaultCounterTable: countertest2
+  defaultTimerTable: timingtest2
+  defaultGaugeTable: gaugetest2
+  defaultSetTable: settest2
+  defaultExceptionTable: exectiontest2
+
+
+
+

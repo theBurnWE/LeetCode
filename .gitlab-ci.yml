@@ -1,0 +1,49 @@
+variables:
+   ALPHA_JAR_NAME: "shdipp.jar"
+   ALPHA_USER: "pepp"
+   ALPHA_IP: "192.168.128.125"
+   ALPHA_HOME: "/u01/upf/LeetCode/"
+
+
+
+stages:
+  - pre-stage
+  - test
+  - build
+  - deploy
+pre-stage:
+  stage: pre-stage
+  script:
+    - echo "start pre-stage"
+test:
+  stage: test
+  script: echo "Running tests"
+build:
+  stage: build
+  script:
+    - echo "Building the app"
+    - source jdk8
+    - gradle buildJar
+alpha_deploy:
+  stage: deploy
+  script:
+    - echo "Start deploying to alpha server"
+    - source jdk8
+    - mkdir dist
+    - cp $ANT_COMMON_PATH/configcenter/$CI_PROJECT_NAME/alpha/* ./dist
+    - gradle buildJar
+    - scp -r dist/* $ALPHA_USER@$ALPHA_IP:$ALPHA_HOME/config/
+    - scp -r server/build/libs/$ALPHA_JAR_NAME $ALPHA_USER@$ALPHA_IP:$ALPHA_HOME/
+    - ssh $ALPHA_USER@$ALPHA_IP "cd  $ALPHA_HOME/ && sh springBoot.sh stop"
+    - ssh $ALPHA_USER@$ALPHA_IP "cd  $ALPHA_HOME/ && sh springBoot.sh start"
+  #定义环境名称
+  environment:
+    name: alpha
+    #确认操作阶段
+#    on_success - 只有前面stages的所有工作成功时才执行。 这是默认值。
+#    on_failure - 当前面stages中任意一个jobs失败后执行。
+#    always - 无论前面stages中jobs状态如何都执行。
+#    `manual ` - 手动执行。
+  when: on_success
+  only:
+  - dev

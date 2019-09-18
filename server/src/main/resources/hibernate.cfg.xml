@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="connection.url">jdbc:oracle:thin:@192.168.128.110:1521:dbdev12c</property>
+          <property name="connection.driver_class">oracle.jdbc.OracleDriver</property>
+        <mapping class="com.shcepp.shdippsvr.business.entity.ShdippBizAdminAuditEntity"/>
+        <mapping class="com.shcepp.shdippsvr.business.entity.ShdippBizContactEntity"/>
+        <mapping class="com.shcepp.shdippsvr.business.entity.ShdippBizEntInfoEntity"/>
+        <mapping class="com.shcepp.shdippsvr.business.entity.ShdippBizEntInfoDetailEntity"/>
+        <mapping class="com.shcepp.shdippsvr.business.entity.ShdippBizMessageEntity"/>
+        <mapping class="com.shcepp.shdippsvr.business.entity.ShdippBizPlatformDetailEntity"/>
+        <mapping class="com.shcepp.shdippsvr.business.entity.ShdippBizPlatformInfoEntity"/>
+        <mapping class="com.shcepp.shdippsvr.business.entity.ShdippBizProductEntity"/>
+        <mapping class="com.shcepp.shdippsvr.business.entity.ShdippBizProductDetailEntity"/>
+        <mapping class="com.shcepp.shdippsvr.business.entity.ShdippBizPrdLikeEntity"/>
+        <mapping class="com.shcepp.shdippsvr.business.entity.ShdippBizRecommendationEntity"/>
+        <mapping class="com.shcepp.shdippsvr.business.entity.ShdippBizUserEntity"/>
+        <mapping class="com.shcepp.shdippsvr.business.entity.ShdippBizUserFavoriteEntity"/>
+        <mapping class="com.shcepp.shdippsvr.business.entity.ShdippBizUserLikeEntity"/>
+        <mapping class="com.shcepp.shdippsvr.business.entity.ShdippBizXReportEntity"/>
+        <mapping class="com.shcepp.shdippsvr.business.entity.ShdippSysAttachmentEntity"/>
+        <mapping class="com.shcepp.shdippsvr.business.entity.ShdippSysAuditEntity"/>
+        <mapping class="com.shcepp.shdippsvr.business.entity.view.VEntRecInfoDetailEntity"/>
+        <mapping class="com.shcepp.shdippsvr.business.entity.view.VPlatformInfoDetailEntity"/>
+        <mapping class="com.shcepp.shdippsvr.business.entity.view.VProductInfoDetailEntity"/>
+
+    </session-factory>
+</hibernate-configuration>

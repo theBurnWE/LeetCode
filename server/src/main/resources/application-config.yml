@@ -1,0 +1,48 @@
+OauthSwitch: 0 #0关1开
+SignSwitch: 0 #0关1开
+myAppSet:
+    path: "D:/ProjectKJ/Workspace/SHDIPP_SVR/server/src/main/resources/config.properties_dev"
+mycache:
+  UPF_TRANS_INF_SEND_USER_REGISTER_URL_IPSKJZF: www.baidu.com  #环迅用户注册默认地址
+shdippsvrcache:
+  SEND_BATCH_APPLY_RESULT_URL: www.123213123.com
+  UPF_EASISPAY_GDWS_THREAD_SIZE: 3
+  UPF_EASISPAY_GDWS_URL: http://192.168.128.87:8001/GDWS/GCCData
+  UPF_EASISPAY_GDWS_USER_NAME: pingpong
+  UPF_EASISPAY_GDWS_USER_PASSWORD: pass1234
+  UPF_EASISPAY_GDWS_USER_ENCRYPTION:
+  file:
+    filePathDataPatten: YYYY-MM
+    filePath: /u01/upf/SHDIPP_SVR/uploadFile
+
+#apollo的配置
+apollo:
+  meta: http://192.168.128.109:8080
+  bootstrap:
+    enabled: true
+    eagerLoad:
+      enabled: true
+  autoUpdateInjectedSpringProperties: false
+app:
+  id: shdipp
+es:
+  config:
+    sysCode: shdipp
+    dataPatten:
+
+#ES引擎配置
+esnodes:
+    indexconfig:
+      sysCode: shdipp
+      dataPatten:
+      indexPatten: rtxt
+    nodes:
+      - hostName: 192.168.128.81
+        port: 9200
+        scheme: http
+#雪花类的配置
+snowflake:
+  workerId: 11
+  datacenterId: 12
+
+
