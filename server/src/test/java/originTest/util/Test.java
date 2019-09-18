@@ -1,3 +1,5 @@
+package originTest.util;
+
 import com.shcepp.shdippsvr.sys.util.SnowflakeIdWorkerUtil;
 
 public class Test {

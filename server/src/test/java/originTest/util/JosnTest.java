@@ -1,4 +1,4 @@
-package util;
+package originTest.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shcepp.shdippsvr.oauth.dto.OAuthReturnInfo;

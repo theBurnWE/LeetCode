@@ -1,3 +1,5 @@
+package originTest.util;
+
 import java.util.HashMap;
 
 @SuppressWarnings("serial")

@@ -1,3 +1,5 @@
+package originTest.util;
+
 import java.math.BigDecimal;
 
 public class BigDecimalTest {
