@@ -1,6 +1,5 @@
 package originTest.util;
 
-import com.shcepp.shdippsvr.sys.util.StringUtils;
 
 public class StrTest {
 
@@ -10,7 +9,6 @@ public class StrTest {
         for (String s : ss) {
 //            System.out.println(StringUtils.isNotEmptyWithNUllCheckStr(s));
 
-            System.out.println(StringUtils.getLegalProfile(s,5));
         }
     }
 
