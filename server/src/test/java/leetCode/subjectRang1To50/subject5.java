@@ -4,6 +4,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -29,8 +32,20 @@ public class subject5 {
 //前值大于或等于后值，加上前值
 //最后一个值必然是加上的
     public static void main(String[] args) {
-        System.out.println("++" + longestPalindrome("cbbd"));
 
+        List<String> list = Arrays.asList("cabbas", "abba", "abbc", "abbc", "abc", "aba", "abcb", "bb", "a");
+//     list =  Arrays.asList("abc");
+
+        list.forEach(f -> {
+            System.out.println("----");
+
+            System.out.println(f);
+
+            System.out.println(longestPalindrome(f));
+            System.out.println("----");
+
+
+        });
     }
 
     public static String longestPalindrome(String s) {
@@ -47,32 +62,32 @@ public class subject5 {
         for (int i = 0; i < s.length(); i++) {
             int step = 0;
 
-            System.out.println("开始计算," + s.charAt(i) + "坐标为：" + i);
 
             int length = expandAroundCenter(s, i, i);
             int length2 = expandAroundCenter(s, i, i + 1);
             //判断步长
             step = Math.max(length, length2);
 
-            //如果步长和当前最大步长相同
+            //如果步长大于当前最大步长
             if (step > max) {
                 max = step;
-                //判断起止坐标
-                //双中心
-                if(length2==max){
-                    statr = i - length / 2;
-
-                    end = i + length / 2+1 ;
-                }else {
-                    statr = i - length / 2;
-
-                    end = i + length / 2 ;
-                }
+                //左坐标：
+                //在长度为奇数的时候求商会自动向下求整数
+                //在长度为偶数的时候由于坐标为左坐标，所以在求出长度之后-1
+                //在整合两个写法之后可以使用求商的向下求整数
+                //右坐标：
+                //在长度为奇数的时候由于自动向下求整数，所以不用对length做运算
+                //在长度为偶数对时候由于当前坐标为左坐标，需要完整的长度以运算右端
+                statr = i - (length - 1) / 2;
+                end = statr + length / 2;
 
             }
         }
-        //左闭右开
-        res = s.substring(statr, end+1);
+
+        res = s.substring(statr, end + 1);
+        System.out.println("开始计算," + s + " 左坐标为：" + statr + " 右坐标为：" + (end + 1));
+
+
         //得到字串
         return res;
 
