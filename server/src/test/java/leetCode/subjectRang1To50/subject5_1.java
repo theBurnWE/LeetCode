@@ -32,7 +32,7 @@ public class subject5_1 {
     public static void main(String[] args) {
 
         List<String> list = Arrays.asList("cabbas", "abba", "abbc", "abbc", "abc", "aba", "abcb", "bb", "a");
-//        list = Arrays.asList("abc");
+        list = Arrays.asList("cbbd");
 
         list.forEach(f -> {
             System.out.println("----");
