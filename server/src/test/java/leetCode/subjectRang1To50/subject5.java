@@ -79,7 +79,7 @@ public class subject5 {
                 //在长度为奇数的时候由于自动向下求整数，所以不用对length做运算
                 //在长度为偶数对时候由于当前坐标为左坐标，需要完整的长度以运算右端
                 statr = i - ((step - 1) / 2);
-                end = i + (step / 2);
+                end = i + (step  / 2);
 
             }
         }
